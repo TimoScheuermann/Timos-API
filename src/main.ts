@@ -11,6 +11,7 @@ async function bootstrap() {
       'https://newsroom.timos.design',
       'https://portfolio.timos.design',
       'https://timos.design',
+      '87.147.46.30',
     ],
   });
   await app.listen(3000);
