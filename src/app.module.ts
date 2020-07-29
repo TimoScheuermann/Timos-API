@@ -1,15 +1,17 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { config } from 'dotenv';
 import { AuthModule } from './auth/auth.module';
+import { getEnv } from './config';
 import { UserModule } from './user/user.module';
 
-config();
+// config();
 
 @Module({
   imports: [
     MongooseModule.forRoot(
-      `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PW}@${process.env.MONGO_DB}.x5ybt.mongodb.net/${process.env.MONGO_TABLE}?retryWrites=true&w=majority`,
+      `mongodb+srv://${getEnv('MONGO_USER')}:${getEnv('MONGO_PW')}@${getEnv(
+        'MONGO_DB',
+      )}/${getEnv('MONGO_TABLE')}?retryWrites=true&w=majority`,
     ),
     UserModule,
     AuthModule,

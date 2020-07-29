@@ -2,20 +2,21 @@ import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-steam';
 import { AuthService, Provider } from 'src/auth/auth.service';
+import { getEnv } from 'src/config';
 import { IUser } from 'src/user/interfaces/User.model';
 
 @Injectable()
 export class SteamStrategy extends PassportStrategy(Strategy, 'steam') {
   constructor(private readonly authService: AuthService) {
     super({
-      apiKey: process.env.STEAM_API_KEY,
+      apiKey: getEnv('STEAM_API_KEY'),
       realm: `${
-        process.env.IS_LOCAL
+        getEnv('IS_LOCAL')
           ? 'http://localhost:8080/'
           : 'https://accounts.timos.design/'
       }`,
       returnURL: `${
-        process.env.IS_LOCAL
+        getEnv('IS_LOCAL')
           ? 'http://localhost:8080/'
           : 'https://accounts.timos.design/'
       }auth/steam/callback`,

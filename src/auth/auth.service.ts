@@ -1,6 +1,7 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { Response } from 'express';
-import { sign } from 'jsonwebtoken';
+import { Secret, sign } from 'jsonwebtoken';
+import { getEnv } from 'src/config';
 import { IUser } from 'src/user/interfaces/User.model';
 import { UserService } from 'src/user/user.service';
 
@@ -19,7 +20,7 @@ export class AuthService {
       expires: new Date(new Date().getTime() + 3600),
     });
 
-    const domain = process.env.IS_LOCAL
+    const domain = getEnv('IS_LOCAL')
       ? 'http://localhost:8080/'
       : 'https://accounts.timos.design/';
 
@@ -29,7 +30,7 @@ export class AuthService {
   async validateOAuthLogin(u: IUser): Promise<string> {
     try {
       const user = await (await this.userService.signIn(u)).toObject();
-      const jwt: string = sign(user, process.env.JWT_SECRET, {
+      const jwt: string = sign(user, getEnv('JWT_SECRET') as Secret, {
         expiresIn: 3600,
       });
       return jwt;
