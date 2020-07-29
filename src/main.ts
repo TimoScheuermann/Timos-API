@@ -10,8 +10,7 @@ async function bootstrap() {
       'http://localhost:8080',
       'https://newsroom.timos.design',
       'https://portfolio.timos.design',
-      'https://timos.design',
-      '87.147.46.30',
+      'https://timos.design'
     ],
   });
   await app.listen(3000);
