@@ -1,4 +1,4 @@
-cd /root/Timos-Api
+cd /root/Timos-API
 git stash
 git pull
 
