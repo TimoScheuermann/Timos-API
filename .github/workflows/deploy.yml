@@ -13,4 +13,4 @@ jobs:
       if: github.event.commits[0].message != 'synch'
       run: |
         echo "Starte deploy",
-        sshpass -p ${{ secrets.pw }} ssh root@api.timos.design -o StrictHostKeyChecking=no < ./deploy.bash
+        sshpass -p ${{ secrets.pw }} ssh root@api.timos.design -o StrictHostKeyChecking=no < ./Timos-API/deploy.bash
