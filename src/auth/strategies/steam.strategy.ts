@@ -11,7 +11,7 @@ export class SteamStrategy extends PassportStrategy(Strategy, 'steam') {
     super({
       apiKey: getEnv('STEAM_API_KEY'),
       realm: getEnv('REDIRECT'),
-      returnURL: `${getEnv('REDIRECT')}auth/steam/callback`,
+      returnURL: `${getEnv('CALLBACK')}steam/callback`,
       passReqToCallback: true,
       scope: ['user:name'],
     });
