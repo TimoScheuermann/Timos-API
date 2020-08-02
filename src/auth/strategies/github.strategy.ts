@@ -3,7 +3,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-github';
 import { AuthService, Provider } from 'src/auth/auth.service';
 import { getEnv } from 'src/config';
-import { IUser } from 'src/user/interfaces/User.model';
+import { IUser } from 'src/user/interfaces/IUser';
 
 @Injectable()
 export class GitHubStrategy extends PassportStrategy(Strategy, 'github') {
@@ -11,13 +11,7 @@ export class GitHubStrategy extends PassportStrategy(Strategy, 'github') {
     super({
       clientID: getEnv('GITHUB_CLIENT_ID'),
       clientSecret: getEnv('GITHUB_SECRET'),
-
-      callbackURL: `${
-        getEnv('IS_LOCAL')
-          ? 'http://localhost:8080/'
-          : 'https://accounts.timos.design/'
-      }auth/github/callback`,
-
+      callbackURL: `${getEnv('REDIRECT')}auth/github/callback`,
       passReqToCallback: true,
       scope: ['user:name'],
     });

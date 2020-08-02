@@ -3,6 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './auth/auth.module';
 import { getEnv } from './config';
 import { UserModule } from './user/user.module';
+import { NewsroomModule } from './newsroom/newsroom.module';
 
 // config();
 
@@ -15,6 +16,7 @@ import { UserModule } from './user/user.module';
     ),
     UserModule,
     AuthModule,
+    NewsroomModule,
   ],
 })
 export class AppModule {}

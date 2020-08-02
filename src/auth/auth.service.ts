@@ -2,7 +2,7 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { Response } from 'express';
 import { Secret, sign } from 'jsonwebtoken';
 import { getEnv } from 'src/config';
-import { IUser } from 'src/user/interfaces/User.model';
+import { IUser } from 'src/user/interfaces/IUser';
 import { UserService } from 'src/user/user.service';
 
 export enum Provider {
@@ -20,11 +20,7 @@ export class AuthService {
       expires: new Date(new Date().getTime() + 3600),
     });
 
-    const domain = getEnv('IS_LOCAL')
-      ? 'http://localhost:8080/'
-      : 'https://accounts.timos.design/';
-
-    res.redirect(domain + jwt ? '' : 'error');
+    res.redirect(getEnv('REDIRECT') + (jwt ? '' : 'error'));
   }
 
   async validateOAuthLogin(u: IUser): Promise<string> {

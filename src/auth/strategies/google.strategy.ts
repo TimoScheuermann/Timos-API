@@ -3,7 +3,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Strategy, VerifyCallback } from 'passport-google-oauth20';
 import { AuthService, Provider } from 'src/auth/auth.service';
 import { getEnv } from 'src/config';
-import { IUser } from 'src/user/interfaces/User.model';
+import { IUser } from 'src/user/interfaces/IUser';
 
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
@@ -11,11 +11,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     super({
       clientID: getEnv('GOOGLE_CLIENT_ID'),
       clientSecret: getEnv('GOOGLE_SECRET'),
-      callbackURL: `${
-        getEnv('IS_LOCAL')
-          ? 'http://localhost:8080/'
-          : 'https://accounts.timos.design/'
-      }auth/google/callback`,
+      callbackURL: `${getEnv('REDIRECT')}auth/google/callback`,
       passReqToCallback: true,
       scope: ['email', 'profile'],
     });
