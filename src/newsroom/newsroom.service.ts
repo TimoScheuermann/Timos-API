@@ -38,7 +38,7 @@ export class NewsroomService {
     return this.newsModel
       .find()
       .sort({ date: -1 })
-      .limit(1)
+      .limit(5)
       .exec();
   }
 }
