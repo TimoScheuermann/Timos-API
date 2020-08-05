@@ -22,23 +22,19 @@ export class NewsroomService {
     const updatedNews = new this.newsModel(updateNewsDto.update).toObject();
     delete updatedNews._id;
 
-    return await this.newsModel
-      .update({ _id: updateNewsDto.id }, updatedNews, { upsert: true })
-      .exec();
+    return this.newsModel.update({ _id: updateNewsDto.id }, updatedNews, {
+      upsert: true,
+    });
   }
 
   async getAll(): Promise<News[]> {
-    return this.newsModel
-      .find()
-      .sort({ date: -1 })
-      .exec();
+    return this.newsModel.find().sort({ date: -1 });
   }
 
   async getLatest(): Promise<News[]> {
     return this.newsModel
       .find()
       .sort({ date: -1 })
-      .limit(5)
-      .exec();
+      .limit(5);
   }
 }

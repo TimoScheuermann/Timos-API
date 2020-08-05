@@ -1,4 +1,6 @@
 import { Module } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { JwtModule } from '@nestjs/jwt';
 import { GitHubStrategy } from 'src/auth/strategies/github.strategy';
 import { GoogleStrategy } from 'src/auth/strategies/google.strategy';
 import { JwtStrategy } from 'src/auth/strategies/jwt.strategy';
@@ -16,6 +18,19 @@ import { AuthService } from './auth.service';
     GitHubStrategy,
     SteamStrategy,
   ],
-  imports: [UserModule],
+  imports: [
+    UserModule,
+    JwtModule.registerAsync({
+      inject: [ConfigService],
+      useFactory: (configServive: ConfigService) => {
+        return {
+          secret: configServive.get('JWT_SECRET'),
+          signOptions: {
+            expiresIn: '1h',
+          },
+        };
+      },
+    }),
+  ],
 })
 export class AuthModule {}

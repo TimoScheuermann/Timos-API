@@ -1,17 +1,20 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-steam';
 import { AuthService, Provider } from 'src/auth/auth.service';
-import { getEnv } from 'src/config';
 import { IUser } from 'src/user/interfaces/IUser';
 
 @Injectable()
 export class SteamStrategy extends PassportStrategy(Strategy, 'steam') {
-  constructor(private readonly authService: AuthService) {
+  constructor(
+    private readonly authService: AuthService,
+    configService: ConfigService,
+  ) {
     super({
-      apiKey: getEnv('STEAM_API_KEY'),
-      realm: getEnv('REDIRECT'),
-      returnURL: `${getEnv('CALLBACK')}steam/callback`,
+      apiKey: configService.get('STEAM_API_KEY'),
+      realm: configService.get('REDIRECT'),
+      returnURL: `${configService.get('CALLBACK')}steam/callback`,
       passReqToCallback: true,
       scope: ['user:name'],
     });

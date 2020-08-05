@@ -10,13 +10,12 @@ export class UserService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
   async userExists(provider: Provider, thirdPartyId: number): Promise<boolean> {
-    const users = await this.userModel
-      .find({
-        provider: provider,
-        thirdPartyId: thirdPartyId,
-      })
-      .exec();
-    return users.length > 0;
+    const users = await this.userModel.findOne({
+      provider: provider,
+      thirdPartyId: thirdPartyId,
+    });
+
+    return !!users.id;
   }
 
   async signIn(iuser: IUser): Promise<User> {
@@ -26,33 +25,30 @@ export class UserService {
     );
 
     if (user) {
-      this.updateUser(user);
+      await this.updateUser(user);
       return user;
     } else {
-      return await new this.userModel({
+      return this.userModel.create({
         ...iuser,
         date: new Date().getTime(),
         group: 'User',
-      }).save();
+      });
     }
   }
 
   async updateUser(u: IUser) {
     const user = new this.userModel(u).toObject();
     delete user._id;
-    this.userModel.updateOne({ _id: u._id }, user, { upsert: true }).exec();
-  }
-
-  async getUserByID(id: string): Promise<User> {
-    return this.userModel.findOne({ _id: id }).exec();
+    this.userModel.findByIdAndUpdate(u._id, user);
   }
 
   async getUserByOAuth(
     provider: Provider,
     thirdPartyId: number,
   ): Promise<User> {
-    return this.userModel
-      .findOne({ provider: provider, thirdPartyId: thirdPartyId })
-      .exec();
+    return this.userModel.findOne({
+      provider: provider,
+      thirdPartyId: thirdPartyId,
+    });
   }
 }
