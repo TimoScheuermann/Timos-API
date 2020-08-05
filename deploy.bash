@@ -6,4 +6,4 @@ npm config set ignore-scripts true
 npm i
 npm config set ignore-scripts false
 
-pm2 restart main
+pm2 restart 0
