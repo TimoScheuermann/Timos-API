@@ -18,7 +18,7 @@ export class AuthService {
   public redirect(jwt: any, res: Response): void {
     res.cookie('timos-designs-auth', jwt, {
       expires: new Date(new Date().getTime() + 3600),
-      domain: 'timos.design',
+      domain: '.timos.design',
     });
 
     res.redirect(getEnv('REDIRECT') + (jwt ? '' : 'error'));
