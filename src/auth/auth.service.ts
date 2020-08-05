@@ -30,8 +30,8 @@ export class AuthService {
 
   async validateOAuthLogin(u: IUser): Promise<string> {
     try {
-      const user = await this.userService.signIn(u);
-      return this.jwtService.sign({ ...user });
+      const user = await (await this.userService.signIn(u)).toObject();
+      return this.jwtService.sign(user);
     } catch (error) {
       throw new InternalServerErrorException(
         'validateOAuthLogin',
