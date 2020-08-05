@@ -13,7 +13,7 @@ export class SteamStrategy extends PassportStrategy(Strategy, 'steam') {
   ) {
     super({
       apiKey: configService.get('STEAM_API_KEY'),
-      realm: configService.get('REDIRECT'),
+      realm: `${configService.get('CALLBACK')}steam/callback`,
       returnURL: `${configService.get('CALLBACK')}steam/callback`,
       passReqToCallback: true,
       scope: ['user:name'],
