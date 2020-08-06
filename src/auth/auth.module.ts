@@ -26,7 +26,7 @@ import { AuthService } from './auth.service';
         return {
           secret: configServive.get('JWT_SECRET'),
           signOptions: {
-            expiresIn: '1h',
+            expiresIn: '5h',
           },
         };
       },

@@ -22,7 +22,7 @@ export class AuthService {
   public redirect(jwt: any, res: Response): void {
     res.cookie('timos-designs-auth', jwt, {
       //expires: new Date(new Date().getTime() * 1000 + 3600),
-      domain: '.timos.design',
+      // domain: '.timos.design',
     });
 
     res.redirect(this.configService.get('REDIRECT') + (jwt ? '' : 'error'));
@@ -31,7 +31,6 @@ export class AuthService {
   async validateOAuthLogin(u: IUser): Promise<string> {
     try {
       const user = await (await this.userService.signIn(u)).toObject();
-      console.log(user);
       return this.jwtService.sign(user);
     } catch (error) {
       throw new InternalServerErrorException(
