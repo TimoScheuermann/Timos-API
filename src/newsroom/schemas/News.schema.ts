@@ -23,6 +23,9 @@ export class News extends Document {
   date: number;
 
   @Prop({ required: true })
+  hasBackground: boolean;
+
+  @Prop({ required: true })
   links: INewsLink[];
 }
 

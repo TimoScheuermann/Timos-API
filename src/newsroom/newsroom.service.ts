@@ -1,30 +1,25 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { PostNewsDto } from './dto/post-news.dto';
-import { UpdateNewsDto } from './dto/update-news.dto';
+import { INews } from './interfaces/INews';
 import { News } from './schemas/News.schema';
 
 @Injectable()
 export class NewsroomService {
   constructor(@InjectModel(News.name) private newsModel: Model<News>) {}
 
-  async post(postNewsDto: PostNewsDto): Promise<News> {
-    const createdNews = new this.newsModel(postNewsDto);
-    return createdNews.save();
+  async post(news: INews): Promise<News> {
+    return this.newsModel.create(news);
   }
 
   async delete(id: string): Promise<any> {
-    return this.newsModel.remove({ _id: id }).exec();
+    return this.newsModel.findByIdAndDelete(id);
   }
 
-  async update(updateNewsDto: UpdateNewsDto): Promise<any> {
-    const updatedNews = new this.newsModel(updateNewsDto.update).toObject();
-    delete updatedNews._id;
-
-    return this.newsModel.update({ _id: updateNewsDto.id }, updatedNews, {
-      upsert: true,
-    });
+  async update(inews: INews): Promise<News> {
+    const news = new this.newsModel(inews).toObject();
+    delete news._id;
+    return this.newsModel.findByIdAndUpdate(inews._id, news);
   }
 
   async getAll(): Promise<News[]> {
