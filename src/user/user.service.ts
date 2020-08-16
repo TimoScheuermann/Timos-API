@@ -28,11 +28,12 @@ export class UserService {
       await this.updateUser(user);
       return user;
     } else {
-      return this.userModel.create({
+      const user = await this.userModel.create({
         ...iuser,
         date: new Date().getTime(),
         group: 'User',
       });
+      return user;
     }
   }
 
@@ -49,6 +50,12 @@ export class UserService {
     return this.userModel.findOne({
       provider: provider,
       thirdPartyId: thirdPartyId,
+    });
+  }
+
+  async getUserById(id: number): Promise<User> {
+    return this.userModel.findOne({
+      _id: id,
     });
   }
 }

@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './auth/auth.module';
+import { IconsModule } from './icons/icons.module';
 import { NewsroomModule } from './newsroom/newsroom.module';
 import { UserModule } from './user/user.module';
 
@@ -25,6 +26,7 @@ import { UserModule } from './user/user.module';
     UserModule,
     AuthModule,
     NewsroomModule,
+    IconsModule,
   ],
 })
 export class AppModule {}

@@ -20,17 +20,12 @@ export class AuthService {
   ) {}
 
   public redirect(jwt: any, res: Response): void {
-    // res.cookie('timos-designs-auth', jwt, {
-    //   //expires: new Date(new Date().getTime() * 1000 + 3600),
-    //   domain: '.timos.design',
-    // });
-
     res.redirect(`${this.configService.get('REDIRECT')}?taToken=${jwt}`);
   }
 
   async validateOAuthLogin(u: IUser): Promise<string> {
     try {
-      const user = await (await this.userService.signIn(u)).toObject();
+      const user: IUser = await (await this.userService.signIn(u)).toObject();
       return this.jwtService.sign(user);
     } catch (error) {
       throw new InternalServerErrorException(
