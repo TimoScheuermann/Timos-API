@@ -50,7 +50,7 @@ export class IconsController {
     @Query('iid') iid: string,
     @Query('cid') cid: string,
     @Body() comment: IIconIssueComment,
-  ) {
-    this.iconsService.postComment(iid, cid, comment);
+  ): Promise<IconIssueComment> {
+    return this.iconsService.postComment(iid, cid, comment);
   }
 }

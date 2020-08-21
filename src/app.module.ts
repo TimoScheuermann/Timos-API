@@ -5,6 +5,7 @@ import { AuthModule } from './auth/auth.module';
 import { IconsModule } from './icons/icons.module';
 import { NewsroomModule } from './newsroom/newsroom.module';
 import { UserModule } from './user/user.module';
+import { ContactModule } from './contact/contact.module';
 
 // config();
 
@@ -27,6 +28,7 @@ import { UserModule } from './user/user.module';
     AuthModule,
     NewsroomModule,
     IconsModule,
+    ContactModule,
   ],
 })
 export class AppModule {}

@@ -1,4 +1,4 @@
-import { Controller, Post, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from 'src/auth/roles.guard';
 import { UserService } from './user.service';
@@ -11,5 +11,14 @@ export class UserController {
   @Post('verify')
   validateUser(): boolean {
     return true;
+  }
+
+  @Get(':id')
+  async getUserDetails(@Param('id') id: string): Promise<any> {
+    const user = await this.userService.getUserById(id);
+    return {
+      name: [user.givenName, user.familyName].filter(x => !!x).join(' '),
+      avatar: user.avatar,
+    };
   }
 }

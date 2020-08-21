@@ -38,30 +38,30 @@ export class IconsService {
     iid: string | undefined,
     cid: string | undefined,
     iComment: IIconIssueComment,
-  ): Promise<boolean> {
-    if (!iid && !cid) return false;
-
-    const newComment = await this.iconIssueCommentModel.create(iComment);
+  ): Promise<IconIssueComment | undefined> {
+    if (!iid && !cid) return undefined;
 
     if (iid) {
       const issue = await this.iconIssueModel.findById(iid);
       if (issue) {
-        console.log('Issue found');
+        const newComment = await this.iconIssueCommentModel.create(iComment);
+
         issue.comments.push(newComment._id);
         issue.save();
-        return true;
+        return newComment;
       }
     }
     if (cid) {
       const comment = await this.iconIssueCommentModel.findById(cid);
       if (comment) {
-        console.log('Comment found');
+        const newComment = await this.iconIssueCommentModel.create(iComment);
+
         comment.comments.push(newComment._id);
         comment.save();
-        return true;
+        return newComment;
       }
     }
 
-    return false;
+    return undefined;
   }
 }
