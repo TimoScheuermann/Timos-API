@@ -1,16 +1,18 @@
-name: Deploy
+name: Deploy Sportkamasutra Fancy
 
 on: [push]
 
 jobs:
-  build:
-
-    runs-on: ubuntu-latest
-    
-    steps:
-    - uses: actions/checkout@v1
-    - name: git pull, build and deploy
-      if: github.event.commits[0].message != 'synch'
-      run: |
-        echo "Starte deploy",
-        sshpass -p ${{ secrets.pw }} ssh root@api.timos.design -o StrictHostKeyChecking=no < ./deploy.bash
+ build:
+   name: Build
+   runs-on: ubuntu-latest
+   steps:
+   - name: executing remote ssh commands using password
+     uses: appleboy/ssh-action@master
+     with:
+       host: api.timos.design
+       username: root
+       password: ${{ secrets.pw }}
+       port: 22
+       script: /root/Timos-Dev/deploy.bash
+ 
