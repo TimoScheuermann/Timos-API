@@ -1,18 +1,24 @@
-name: Deploy Sportkamasutra Fancy
+name: Deploy
 
 on: [push]
 
 jobs:
- build:
-   name: Build
-   runs-on: ubuntu-latest
-   steps:
-   - name: executing remote ssh commands using password
-     uses: appleboy/ssh-action@master
-     with:
-       host: api.timos.design
-       username: root
-       password: ${{ secrets.pw }}
-       port: 22
-       script: /root/Timos-Dev/deploy.bash
- 
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: SSH and deploy node app
+        uses: appleboy/ssh-action@master
+        with:
+          host: api.timos.design
+          username: root
+          password: ${{ secrets.PW }}
+          script: |
+            cd /root/Timos-API/backend
+            git stash
+            git pull
+            npm config set ignore-scripts true
+            npm i
+            npm config set ignore-scripts false
+            npm run build
+            pm2 restart Timos-API
